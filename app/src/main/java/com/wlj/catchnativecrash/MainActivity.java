@@ -2,6 +2,7 @@ package com.wlj.catchnativecrash;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,6 +12,7 @@ import com.wlj.catchnativecrash.app_crash.CrashMonitor;
 import com.wlj.catchnativecrash.databinding.ActivityMainBinding;
 import com.wlj.catchnativecrash.native_crash.CrashHandlerListener;
 import com.wlj.catchnativecrash.native_crash.NativeCrashMonitor;
+import com.wlj.catchnativecrash.oom_monitor.OomActivity;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -39,11 +41,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Log.d("111","threadName:"+sthreadName+"---msg:"+error.getMessage());
             }
         });
+        binding.bnOom.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        nativeCrashMonitor.nativeCrash();
+        if(v.getId()==R.id.sample_text) {
+            nativeCrashMonitor.nativeCrash();
+        }else if(v.getId()==R.id.bn_oom){
+            startActivity(new Intent(this, OomActivity.class));
+        }
 //        nativeCrashMonitor.testCrashHandlerCallback(new CrashHandlerListener() {
 //            @Override
 //            public void onCrash(String sthreadName, Error error) {
